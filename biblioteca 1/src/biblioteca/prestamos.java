@@ -2,6 +2,7 @@
 package biblioteca;
 
 import Elements.Prestamos;
+import biblioteca.clase2;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -17,7 +18,7 @@ import org.json.simple.JSONValue;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import biblioteca.libros;
 public class prestamos extends JPanel implements ActionListener {
   Date fechaingresada;
     JLabel texto1 ;
@@ -29,7 +30,9 @@ public class prestamos extends JPanel implements ActionListener {
          JLabel texto4;
          JComboBox lista1 ;
     JTextField caj1,caj2,caj3;
-       JTable tabla; DefaultTableModel mod;
+       JTable tablap;
+       
+    DefaultTableModel mod;
        JButton bot,boton2;
     Object[] newr;
    
@@ -84,7 +87,7 @@ add(texto4);
        char c= e.getKeyChar();//aqui obtengo el caracter que esta entrando en el teclado
           if(!Character.isDigit(c)){ //si lo que ingresamos es un caracter entonces se consumira y no aparecera en la caja
     e.consume();
-           caj1.setBackground(Color.red);
+           caj1.setBackground(Color.orange);
           }else{//si los caracteres ingresados son numeros entonces volvera al color blanco 
      caj1.setBackground(Color.white);} }
     @Override
@@ -134,15 +137,31 @@ mod.addColumn("Status");
 
  
 
-        JTable tabla = new JTable(mod);
-       scroll = new JScrollPane(tabla);// añado mi tabla al scroll(permitira que el scrool se ajuste a las nesecidades de la tabla)
-        tabla.setBounds(250, 40, 800, 400);//defino la posicion de mi tabla
+        tablap = new JTable(mod);
+       scroll = new JScrollPane(tablap);// añado mi tabla al scroll(permitira que el scrool se ajuste a las nesecidades de la tabla)
+        tablap.setBounds(250, 40, 800, 400);//defino la posicion de mi tabla
         scroll.setBounds(250, 40, 800, 400);//defino la posicion de mi scroll
      
         add(scroll);
 
 }
-   public void boton(){
+   public void rellenar(){
+
+       
+       
+       
+       
+       
+       
+
+   }
+   
+   
+   
+   
+   
+   
+   public void boton() {
         
 bot = new JButton();// creo mi boton 
        bot.setText("Prestar libro");//le asigno el texto que tendra mi boton
@@ -156,6 +175,12 @@ bot = new JButton();// creo mi boton
              try{
        if(counter<100){
   int idl = Integer.parseInt(caj1.getText().toString());//aqui convierto el strig a int y obtengo el dato ingresado
+  
+  
+  
+  
+  
+  
    // String ide= caj2.getText().toString();//obtengo el texto ingresado a la caja libro
     //String autor= caj3.getText().toString();//obtengo el texto ingresado a la caja autor
   //  String tipo= (String) lista.getSelectedItem();//aqui convierto el strig a int y obtengo el dato ingre
@@ -165,24 +190,67 @@ bot = new JButton();// creo mi boton
    
      SimpleDateFormat fechh = new SimpleDateFormat("dd/MM/YYYY");
              Date fechahoy = new Date();
+             libros obg = new libros();
+             clase2 usu = new clase2();
     Date fechaconv = conversordate(fecha);
     
+//    
+//    for(int i=0; i<obg.tabla.getRowCount();i++){
+//                                    
+//                                    if(obg.tabla.getValueAt(i,0).equals(idl)){
+//    
     
-                                
-  if(fechaconv != null){
-      
+    
+                                for(int i=0; i<obg.arrt.length;i++){
+                                     for(int j=0; j<usu.arrtu.length;j++){
+                                         
+                                        
+                                    if(obg.arrt[i]==ide){
+                                         if(usu.arrtu[j]==idl){
+                                        
+  
+//    JOptionPane.showMessageDialog(null, "existe"); 
+//        mod.removeRow(i);
+   if(fechaconv != null){
       if(fechahoy.compareTo(fechaconv)<= 0){
        Object[] newr ={idl,ide,stringadate(fechaconv),"prestado"};//introduzco los datos ingresados al objeto array
  mod.addRow(newr);// introduzco el objeto array a la tabla
+  reportes.mod3.addRow(newr);
  counter++;//el contador sera igual a contador + 1
       }else{ Object[] newr ={idl,ide,stringadate(fechaconv),"entregado"};//introduzco los datos ingresados al objeto array
  mod.addRow(newr);// introduzco el objeto array a la tabla
+  reportes.mod3.addRow(newr);
  counter++;//el contador sera igual a contador + 1
       } }else{
-       JOptionPane.showMessageDialog(null, "El formato es dd/MM/yyyy"); }
-    }else {
+       JOptionPane.showMessageDialog(null, "El formato es dd/mm/yyyy"); 
+  }
+   
+                                }
+                                                                }
+                                
+                                }  }
+       
+                                
+                                
+       
+
+       
+       }else {
    JOptionPane.showMessageDialog(null, "LIMITE DE REGISTROS");
   }}catch(Exception ex){JOptionPane.showMessageDialog(null, "Hacen falta datos");} } });
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
  boton2 = new JButton();// creo mi boton 
      boton2.setText("Carga masiva");//le asigno el texto que tendra mi boton
      boton2.setBounds(60,250 ,150, 30);//le doy posicion a mi boton 
@@ -231,27 +299,42 @@ bot = new JButton();// creo mi boton
                             {
                                 JSONObject obyeto_value = (JSONObject) obyeto_inarray;
 Prestamos prestamo_nuevo=new Prestamos();
+
+
  Long idLibro=(Long) obyeto_value.get("IDLibro");
     prestamo_nuevo.idLibro =  idLibro.intValue();
     
 Long id_prestamo=(Long) obyeto_value.get("IDUsuario");
  prestamo_nuevo.idUsuario =  id_prestamo.intValue();
  
-                                
+ String id_fecha = (String) obyeto_value.get("FechaEntrega");
+ 
+ 
+   SimpleDateFormat fechh = new SimpleDateFormat("dd/MM/YYYY");
+             Date fechahoy = new Date();
+             libros obg = new libros();
+             clase2 usu = new clase2();
+    Date fechaconv = conversordate(id_fecha);
+ 
     
-    /*libro_nuevo.autor = (String) obyeto_value.get("Autor");
-      Long disponible=(Long) obyeto_value.get("Disponible");
-    libro_nuevo.disponible =  id_libro.intValue();
-    Long copias=(Long) obyeto_value.get("Copias");
-    libro_nuevo.copias =  id_libro.intValue();
-   
-    Long ocupados=(Long) obyeto_value.get("Ocupados");
-    libro_nuevo.ocupados =  id_libro.intValue();
-       Long Tipo=(Long) obyeto_value.get("Tipo");
-    libro_nuevo.tipo =  id_libro.intValue();*/
-    Object[] values = {String.valueOf(prestamo_nuevo.idLibro),String.valueOf(prestamo_nuevo.idUsuario),prestamo_nuevo.Fecha };
-     mod.addRow(values);  counter++;//el contador sera igual a contador +1
-                            }
+//    
+//    Object[] values = {String.valueOf(prestamo_nuevo.idLibro),String.valueOf(prestamo_nuevo.idUsuario),id_fecha,0 };
+//     mod.addRow(values); 
+//      reportes.mod3.addRow(values);
+//     counter++;//el contador sera igual a contador +1
+ if(fechaconv != null){
+      if(fechahoy.compareTo(fechaconv)<= 0){
+       Object[] newr ={String.valueOf(prestamo_nuevo.idLibro),String.valueOf(prestamo_nuevo.idUsuario),stringadate(fechaconv),"prestado"};//introduzco los datos ingresados al objeto array
+ mod.addRow(newr);// introduzco el objeto array a la tabla
+  reportes.mod3.addRow(newr);
+ counter++;//el contador sera igual a contador + 1
+      }else{ Object[] newr ={String.valueOf(prestamo_nuevo.idLibro),String.valueOf(prestamo_nuevo.idUsuario),stringadate(fechaconv),"entregado"};//introduzco los datos ingresados al objeto array
+ mod.addRow(newr);// introduzco el objeto array a la tabla
+  reportes.mod3.addRow(newr);
+ counter++;//el contador sera igual a contador + 1
+      } }else{
+       JOptionPane.showMessageDialog(null, "El formato es dd/mm/yyyy"); 
+  }  }
                             pantalla_masiva.setVisible(false);
                             change();}else {
           JOptionPane.showMessageDialog(null, "LIMITE DE REGISTROS");//de lo contrario aparecera una ventana emergente con el siguiente mensaje
@@ -277,7 +360,7 @@ Long id_prestamo=(Long) obyeto_value.get("IDUsuario");
       
      }catch(Exception e){
 //       
-     JOptionPane.showMessageDialog(null, "Formato no valido");
+     JOptionPane.showMessageDialog(null, "Formato de fecha no valido");
      }     return f;
 //       
 // 
